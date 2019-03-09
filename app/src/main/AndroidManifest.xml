@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.Activities.GithubPulls"></activity>
+        <activity android:name=".Controller.Activities.GithubDiffsActivity"></activity>
+        <activity android:name=".Controller.Activities.GithubPulls" />
         <activity android:name=".Controller.Activities.GithubRepos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

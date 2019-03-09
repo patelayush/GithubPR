@@ -1,14 +1,15 @@
 package com.example.githubpr.View.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.githubpr.Controller.Activities.GithubDiffsActivity;
 import com.example.githubpr.Model.PullRequest;
 import com.example.githubpr.R;
 
@@ -47,7 +48,9 @@ public class PullRequestAdapter extends RecyclerView.Adapter<PullRequestAdapter.
             tvname = itemView.findViewById(R.id.pulls_name_tv);
 
             tvname.setOnClickListener(v -> {
-                Toast.makeText(context,"Clicked" + pulls.get(getAdapterPosition()).getTitle(),Toast.LENGTH_SHORT).show();
+                System.out.println(pulls.get(getAdapterPosition()).getDiff_url());
+                context.startActivity(new Intent(context, GithubDiffsActivity.class).
+                        putExtra("url",pulls.get(getAdapterPosition()).getDiff_url()));
             });
         }
     }
