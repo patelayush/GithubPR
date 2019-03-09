@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.githubpr.Model.Repository;
+import com.example.githubpr.View.Adapters.RepositoryAdapter;
 import com.example.githubpr.utils.NetworkChecker;
 import com.example.githubpr.R;
 import com.example.githubpr.utils.RetrofitAPI;
@@ -25,7 +29,10 @@ import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 
 public class GithubRepos extends AppCompatActivity {
 
+    private ArrayList<Repository> repositories;
     private RetrofitAPI restAPI;
+    private RecyclerView recyclerView;
+    private RepositoryAdapter repositoryAdapter;
     private IntentFilter connectivityIntentFilter = new IntentFilter(CONNECTIVITY_ACTION);
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -40,13 +47,15 @@ public class GithubRepos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.repos_github);
         restAPI = ServiceGenerator.createService(RetrofitAPI.class);
-
+        recyclerView = findViewById(R.id.repos_recycler);
         Call<ArrayList<Repository>> call = restAPI.getRespositories();
         call.enqueue(new Callback<ArrayList<Repository>>() {
             @Override
             public void onResponse(Call<ArrayList<Repository>> call, Response<ArrayList<Repository>> response) {
                 if(response.isSuccessful() && response.body()!=null){
-                    Toast.makeText(getApplicationContext(),response.body().get(0).getName(),Toast.LENGTH_SHORT).show();
+                    repositories = response.body();
+                    System.out.println(repositories.size());
+                    setUpAdapter();
                 }
             }
 
@@ -55,6 +64,16 @@ public class GithubRepos extends AppCompatActivity {
                 System.out.println(t.getMessage());
             }
         });
+    }
+
+    private void setUpAdapter() {
+        repositoryAdapter = new RepositoryAdapter(repositories,getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
+        recyclerView.setAdapter(repositoryAdapter);
     }
 
     @Override
