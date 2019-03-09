@@ -1,19 +1,17 @@
 package com.example.githubpr.View.Adapters;
 
-import android.graphics.drawable.AdaptiveIconDrawable;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import com.example.githubpr.Controller.Activities.GithubPulls;
 import com.example.githubpr.Model.Repository;
 import com.example.githubpr.R;
-
-import android.content.Context;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -48,6 +46,11 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Re
         public Reposholder(@NonNull View itemView) {
             super(itemView);
             tvname = itemView.findViewById(R.id.repos_name_tv);
+
+            tvname.setOnClickListener(v -> {
+                context.startActivity(new Intent(context, GithubPulls.class).
+                        putExtra("name",repositories.get(getAdapterPosition()).getName()));
+            });
         }
     }
 }
