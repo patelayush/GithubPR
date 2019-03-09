@@ -62,7 +62,12 @@ public class GithubPulls extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<PullRequest>> call, Response<ArrayList<PullRequest>> response) {
                 if(response.isSuccessful() && response.body()!=null){
-                    pulls = response.body();
+                    pulls = new ArrayList<>();
+                    // Only add those pull request which are open.
+                    for(PullRequest pr : response.body())
+                        if(pr.getState().equals("open"))
+                            pulls.add(pr);
+
                     if(pulls.size()!=0)
                         setUpAdapter();
                     else

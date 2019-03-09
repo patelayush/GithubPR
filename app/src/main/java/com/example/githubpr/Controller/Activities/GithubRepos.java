@@ -1,21 +1,20 @@
 package com.example.githubpr.Controller.Activities;
 
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.githubpr.Model.Repository;
+import com.example.githubpr.R;
 import com.example.githubpr.View.Adapters.RepositoryAdapter;
 import com.example.githubpr.utils.NetworkChecker;
-import com.example.githubpr.R;
 import com.example.githubpr.utils.RetrofitAPI;
 import com.example.githubpr.utils.ServiceGenerator;
 
@@ -54,7 +53,6 @@ public class GithubRepos extends AppCompatActivity {
             public void onResponse(Call<ArrayList<Repository>> call, Response<ArrayList<Repository>> response) {
                 if(response.isSuccessful() && response.body()!=null){
                     repositories = response.body();
-                    System.out.println(repositories.size());
                     setUpAdapter();
                 }
             }
@@ -72,7 +70,6 @@ public class GithubRepos extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
         recyclerView.setAdapter(repositoryAdapter);
     }
 
