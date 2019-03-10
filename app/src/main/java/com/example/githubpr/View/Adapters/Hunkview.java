@@ -24,7 +24,7 @@ public class Hunkview extends FrameLayout {
         super(context);
         LayoutInflater layoutInflater = null;
         int fromlinestarting = 0, tolinestarting = 0;
-        View view = layoutInflater.from(context).inflate(R.layout.diff_hunk_container, this, false);
+        View view = layoutInflater.from(context).inflate(R.layout.diff_hunk_container, this);
         header_tv = view.findViewById(R.id.header_textview);
         from_layout = view.findViewById(R.id.layout_from_line);
         to_layout = view.findViewById(R.id.layout_to_line);

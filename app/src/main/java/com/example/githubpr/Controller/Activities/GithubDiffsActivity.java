@@ -63,6 +63,7 @@ public class GithubDiffsActivity extends AppCompatActivity {
         difflist = new ArrayList<>();
         recyclerView = findViewById(R.id.diffs_recyclerview);
         System.out.println(diff_url);
+        setUpAdapter();
         Call<ResponseBody> call = restAPI.getDiffs(diff_url);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -71,10 +72,12 @@ public class GithubDiffsActivity extends AppCompatActivity {
                     diffParser = new UnifiedDiffParser();
                     try {
                         difflist = new ArrayList<>();
-                        difflist = diffParser.parse(response.body().bytes());
+                        /*difflist = diffParser.parse(response.body().bytes());
                         if(difflist.size()!=0) {
                             setUpAdapter();
-                        }
+                        }*/
+                        diffsAdapter.updateDiffList(diffParser.parse(response.body().bytes()));
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -89,7 +92,7 @@ public class GithubDiffsActivity extends AppCompatActivity {
     }
     private void setUpAdapter() {
 
-        diffsAdapter = new DiffsAdapter(getApplicationContext(),difflist);
+        diffsAdapter = new DiffsAdapter(GithubDiffsActivity.this,difflist);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);

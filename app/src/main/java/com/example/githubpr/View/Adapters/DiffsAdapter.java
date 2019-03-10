@@ -28,7 +28,9 @@ public class DiffsAdapter extends RecyclerView.Adapter<DiffsAdapter.DiffsHolder>
 
     @Override
     public DiffsAdapter.DiffsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new DiffsHolder(LayoutInflater.from(context).inflate(R.layout.diff_layout,viewGroup,false));
+        View view = LayoutInflater.from(context).inflate(R.layout.diff_layout,viewGroup,false);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        return new DiffsHolder(view);
 
     }
 
@@ -41,11 +43,17 @@ public class DiffsAdapter extends RecyclerView.Adapter<DiffsAdapter.DiffsHolder>
         for(Hunk hunk : diff.getHunks()){
             diffsHolder.hunk_layout.addView(new Hunkview(context, hunk, diff.getHeaderLines()));
         }
+
     }
 
     @Override
     public int getItemCount() {
         return diffslist.size();
+    }
+
+    public void updateDiffList(List<Diff> diffslist) {
+        this.diffslist = diffslist;
+        notifyDataSetChanged();
     }
 
     public class DiffsHolder extends RecyclerView.ViewHolder {
