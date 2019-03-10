@@ -91,7 +91,7 @@ public class GithubPulls extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        registerReceiver(broadcastReceiver,connectivityIntentFilter);
+        unregisterReceiver(broadcastReceiver);
     }
 
     private void setUpAdapter() {
