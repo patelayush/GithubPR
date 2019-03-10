@@ -6,13 +6,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.githubpr.Model.PullRequest;
 import com.example.githubpr.R;
-import com.example.githubpr.View.Adapters.PullRequestAdapter;
+import com.example.githubpr.View.Adapters.DiffsAdapter;
 import com.example.githubpr.utils.NetworkChecker;
 import com.example.githubpr.utils.RetrofitAPI;
 import com.example.githubpr.utils.ServiceGenerator;
@@ -41,7 +43,7 @@ public class GithubDiffsActivity extends AppCompatActivity {
     private List<Diff> difflist;
     private TextView no_pulls_tv;
     private RecyclerView recyclerView;
-    private PullRequestAdapter pullRequestAdapter;
+    private DiffsAdapter diffsAdapter;
     private IntentFilter connectivityIntentFilter = new IntentFilter(CONNECTIVITY_ACTION);
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -58,6 +60,8 @@ public class GithubDiffsActivity extends AppCompatActivity {
         restAPI = ServiceGenerator.createService(RetrofitAPI.class);
         setContentView(R.layout.activity_github_diffs);
         diff_url = getIntent().getStringExtra("url");
+        difflist = new ArrayList<>();
+        recyclerView = findViewById(R.id.diffs_recyclerview);
         System.out.println(diff_url);
         Call<ResponseBody> call = restAPI.getDiffs(diff_url);
         call.enqueue(new Callback<ResponseBody>() {
@@ -67,8 +71,10 @@ public class GithubDiffsActivity extends AppCompatActivity {
                     diffParser = new UnifiedDiffParser();
                     try {
                         difflist = new ArrayList<>();
-                        List<Diff> difflist = diffParser.parse(response.body().bytes());
-                        System.out.println(difflist.size());
+                        difflist = diffParser.parse(response.body().bytes());
+                        if(difflist.size()!=0) {
+                            setUpAdapter();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -80,5 +86,16 @@ public class GithubDiffsActivity extends AppCompatActivity {
                 System.out.println(t.getMessage());
             }
         });
+    }
+    private void setUpAdapter() {
+
+        diffsAdapter = new DiffsAdapter(getApplicationContext(),difflist);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(diffsAdapter);
+        diffsAdapter.notifyDataSetChanged();
+        System.out.println("Reached here" + diffsAdapter);
     }
 }
