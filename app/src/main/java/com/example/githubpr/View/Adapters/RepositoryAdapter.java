@@ -50,8 +50,9 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Re
             tvname = itemView.findViewById(R.id.repos_name_tv);
             tvcount = itemView.findViewById(R.id.star_count_tv);
             tvfork = itemView.findViewById(R.id.fork_count_tv);
-            tvname.setOnClickListener(v -> {
+            itemView.setOnClickListener(v -> {
                 context.startActivity(new Intent(context, GithubPulls.class).
+                        //Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag.
                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).
                         putExtra("name",repositories.get(getAdapterPosition()).getName()));
             });
