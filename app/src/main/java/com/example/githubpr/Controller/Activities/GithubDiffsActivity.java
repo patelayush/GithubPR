@@ -1,5 +1,6 @@
 package com.example.githubpr.Controller.Activities;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +45,7 @@ public class GithubDiffsActivity extends AppCompatActivity {
     private TextView no_pulls_tv;
     private RecyclerView recyclerView;
     private DiffsAdapter diffsAdapter;
+    private ProgressDialog progress;
     private IntentFilter connectivityIntentFilter = new IntentFilter(CONNECTIVITY_ACTION);
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -62,7 +64,7 @@ public class GithubDiffsActivity extends AppCompatActivity {
         diff_url = getIntent().getStringExtra("url");
         difflist = new ArrayList<>();
         recyclerView = findViewById(R.id.diffs_recyclerview);
-        System.out.println(diff_url);
+        showProgressDialog(true);
         setUpAdapter();
         Call<ResponseBody> call = restAPI.getDiffs(diff_url);
         call.enqueue(new Callback<ResponseBody>() {
@@ -72,12 +74,8 @@ public class GithubDiffsActivity extends AppCompatActivity {
                     diffParser = new UnifiedDiffParser();
                     try {
                         difflist = new ArrayList<>();
-                        /*difflist = diffParser.parse(response.body().bytes());
-                        if(difflist.size()!=0) {
-                            setUpAdapter();
-                        }*/
                         diffsAdapter.updateDiffList(diffParser.parse(response.body().bytes()));
-
+                        showProgressDialog(false);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -90,6 +88,20 @@ public class GithubDiffsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showProgressDialog(boolean b) {
+        if(b){
+            progress=new ProgressDialog(this);
+            progress.setMessage("Loading");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setIndeterminate(true);
+            progress.setProgress(0);
+            progress.show();
+        }
+        else
+            progress.dismiss();
+    }
+
     private void setUpAdapter() {
 
         diffsAdapter = new DiffsAdapter(GithubDiffsActivity.this,difflist);
