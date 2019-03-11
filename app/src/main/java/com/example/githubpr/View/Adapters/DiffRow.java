@@ -1,7 +1,6 @@
 package com.example.githubpr.View.Adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -12,8 +11,10 @@ import com.example.githubpr.R;
 import io.reflectoring.diffparser.api.model.Line;
 
 public class DiffRow extends FrameLayout {
+    private Line.LineType BLANK;
     TextView line_number_tv;
     TextView content_tv;
+
     public DiffRow(Context context, int number, String content, Line.LineType lineType) {
         super(context);
         LayoutInflater layoutInflater = null;
@@ -21,25 +22,23 @@ public class DiffRow extends FrameLayout {
         line_number_tv = view.findViewById(R.id.line_number_textview);
         content_tv = view.findViewById(R.id.content_textview);
 
-
-        System.out.println("Content is here" + content);
-
-        switch (lineType){
+        switch (lineType) {
             case FROM:
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.material_grey_300));
-                content = "-"  +content;
+                view.setBackgroundColor(getResources().getColor(R.color.from_color));
+                content = "-" + content;
                 break;
 
             case TO:
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
-                content = "+"  +content;
+                view.setBackgroundColor(getResources().getColor(R.color.to_color));
+                content = "+" + content;
                 break;
 
         }
-       line_number_tv.setText("" + number);
-       content_tv.setText(content);
+        if (lineType != BLANK) {
+            line_number_tv.setText("" + number);
+            content_tv.setText(content);
 
 
+        }
     }
-
 }

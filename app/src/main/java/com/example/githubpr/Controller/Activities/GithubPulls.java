@@ -57,21 +57,16 @@ public class GithubPulls extends AppCompatActivity {
         no_pulls_tv = findViewById(R.id.no_pulls_tv);
         getSupportActionBar().setTitle(repository_name);
 
-        Call<ArrayList<PullRequest>> call = restAPI.getPullrequests(repository_name);
+        Call<ArrayList<PullRequest>> call = restAPI.getPullrequests(repository_name); // only fetch open pull requests.
         call.enqueue(new Callback<ArrayList<PullRequest>>() {
             @Override
             public void onResponse(Call<ArrayList<PullRequest>> call, Response<ArrayList<PullRequest>> response) {
                 if(response.isSuccessful() && response.body()!=null){
-                    pulls = new ArrayList<>();
-                    // Only add those pull request which are open.
-                    for(PullRequest pr : response.body())
-                        if(pr.getState().equals("open"))
-                            pulls.add(pr);
-
+                    pulls = response.body();
                     if(pulls.size()!=0)
                         setUpAdapter();
                     else
-                        no_pulls_tv.append(Html.fromHtml("<b>" + repository_name + "</b>"));
+                        no_pulls_tv.setText("No open Pull Requests for " + Html.fromHtml("<b>" + repository_name + "</b>"));
                 }
             }
 

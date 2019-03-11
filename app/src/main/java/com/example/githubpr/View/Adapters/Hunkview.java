@@ -31,6 +31,9 @@ public class Hunkview extends FrameLayout {
 
         header_tv.setText(headerString.get(0));
 
+        fromlinestarting = hunk.getFromFileRange().getLineStart();
+        tolinestarting = hunk.getToFileRange().getLineStart();
+
         for (Line line : hunk.getLines()) {
             if (line.getLineType().equals(Line.LineType.FROM)) {
                 from_layout.addView(new DiffRow(context, fromlinestarting++, line.getContent(), Line.LineType.FROM));
