@@ -34,6 +34,8 @@ public class PullRequestAdapter extends RecyclerView.Adapter<PullRequestAdapter.
     @Override
     public void onBindViewHolder(@NonNull PullsHolder viewHolder, int i) {
         viewHolder.tvname.setText(this.pulls.get(i).getTitle());
+        viewHolder.updated_date_tv.setText(this.pulls.get(i).getUpdateddate());
+        System.out.println(pulls.get(i).toString());
     }
 
     @Override
@@ -42,11 +44,11 @@ public class PullRequestAdapter extends RecyclerView.Adapter<PullRequestAdapter.
     }
 
     public class PullsHolder extends RecyclerView.ViewHolder{
-        public TextView tvname;
+        public TextView tvname, updated_date_tv;
         public PullsHolder(@NonNull View itemView) {
             super(itemView);
             tvname = itemView.findViewById(R.id.pulls_name_tv);
-
+            updated_date_tv = itemView.findViewById(R.id.last_update_tv);
             itemView.setOnClickListener(v -> {
                 System.out.println(pulls.get(getAdapterPosition()).getDiff_url());
                 //Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag.

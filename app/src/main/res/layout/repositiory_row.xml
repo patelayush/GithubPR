@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/cv"
     android:elevation="10dp"
-
+    android:layout_margin="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:src="@drawable/baseline_star_rate_black_18dp"
                 />
             <TextView
-                android:layout_width="30dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/star_count_tv"
                 android:textColor="#000000"/>

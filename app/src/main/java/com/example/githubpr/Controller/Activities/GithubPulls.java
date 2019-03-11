@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -67,6 +66,7 @@ public class GithubPulls extends AppCompatActivity {
                         setUpAdapter();
                     else
                         no_pulls_tv.setText("No open Pull Requests for " + Html.fromHtml("<b>" + repository_name + "</b>"));
+
                 }
             }
 
@@ -94,7 +94,6 @@ public class GithubPulls extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(pullRequestAdapter);
         recyclerView.setVisibility(View.VISIBLE);
         no_pulls_tv.setVisibility(View.GONE);
