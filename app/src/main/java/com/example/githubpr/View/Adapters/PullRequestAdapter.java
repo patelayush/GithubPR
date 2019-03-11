@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.githubpr.Controller.Activities.GithubDiffsActivity;
 import com.example.githubpr.Model.PullRequest;
@@ -50,11 +51,15 @@ public class PullRequestAdapter extends RecyclerView.Adapter<PullRequestAdapter.
             tvname = itemView.findViewById(R.id.pulls_name_tv);
             updated_date_tv = itemView.findViewById(R.id.last_update_tv);
             itemView.setOnClickListener(v -> {
-                System.out.println(pulls.get(getAdapterPosition()).getDiff_url());
-                //Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag.
-                context.startActivity(new Intent(context, GithubDiffsActivity.class).
-                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).
-                        putExtra("url",pulls.get(getAdapterPosition()).getDiff_url()));
+                if(pulls.get(getAdapterPosition()).getDiff_url() != null) {
+                    //Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag.
+                    context.startActivity(new Intent(context, GithubDiffsActivity.class).
+                            setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).
+                            putExtra("url", pulls.get(getAdapterPosition()).getDiff_url()).
+                            putExtra("pull",pulls.get(getAdapterPosition()).getTitle()));
+                }
+                else
+                    Toast.makeText(context, "No files were changed in this pull request", Toast.LENGTH_SHORT).show();
             });
         }
     }

@@ -38,11 +38,11 @@ public class GithubDiffsActivity extends AppCompatActivity {
 
     private ArrayList<PullRequest> pulls;
     private RetrofitAPI restAPI;
-    private String repository_name;
+    private String pull_title;
     private String diff_url;
     private DiffParser diffParser;
     private List<Diff> difflist;
-    private TextView no_pulls_tv;
+    private TextView files_changed_tv;
     private RecyclerView recyclerView;
     private DiffsAdapter diffsAdapter;
     private ProgressDialog progress;
@@ -62,8 +62,11 @@ public class GithubDiffsActivity extends AppCompatActivity {
         restAPI = ServiceGenerator.createService(RetrofitAPI.class);
         setContentView(R.layout.activity_github_diffs);
         diff_url = getIntent().getStringExtra("url");
+        pull_title = getIntent().getStringExtra("pull");
+        getSupportActionBar().setTitle(pull_title);
         difflist = new ArrayList<>();
         recyclerView = findViewById(R.id.diffs_recyclerview);
+        files_changed_tv = findViewById(R.id.files_changed_tv);
         showProgressDialog(true);
         setUpAdapter();
         Call<ResponseBody> call = restAPI.getDiffs(diff_url);
@@ -74,7 +77,9 @@ public class GithubDiffsActivity extends AppCompatActivity {
                     diffParser = new UnifiedDiffParser();
                     try {
                         difflist = new ArrayList<>();
-                        diffsAdapter.updateDiffList(diffParser.parse(response.body().bytes()));
+                        difflist = diffParser.parse(response.body().bytes());
+                        diffsAdapter.updateDiffList(difflist);
+                        files_changed_tv.setText("Files Changed: " + difflist.size());
                         showProgressDialog(false);
                     } catch (IOException e) {
                         e.printStackTrace();
