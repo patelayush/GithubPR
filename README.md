@@ -16,4 +16,6 @@ Short Description - Fetches and displays data from the GitHub API List open PRs 
 
 5. Once the user selects a Pull Request, the User can view the changes in the file in a 'side-by-side' style, similar to “Split” the way Github displays diffs. File name along with the changes are loaded to show the differences.
 
-<p align="center">![](GithubPRDemo.gif)</p>
+<p align="center">
+<img src="GithubPRDemo.gif">
+</p>
