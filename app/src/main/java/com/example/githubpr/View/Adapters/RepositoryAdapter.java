@@ -33,7 +33,9 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull Reposholder viewHolder, int i) {
-        viewHolder.tvname.setText(this.repositories.get(i).getName());
+        viewHolder.tvname.setText(repositories.get(i).getName());
+        viewHolder.tvcount.setText(String.valueOf(repositories.get(i).getStargazers_count()));
+        viewHolder.tvfork.setText(String.valueOf(repositories.get(i).getForks_count()));
     }
 
     @Override
@@ -42,11 +44,12 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Re
     }
 
     public class Reposholder extends RecyclerView.ViewHolder{
-        public TextView tvname;
+        public TextView tvname, tvcount, tvfork;
         public Reposholder(@NonNull View itemView) {
             super(itemView);
             tvname = itemView.findViewById(R.id.repos_name_tv);
-
+            tvcount = itemView.findViewById(R.id.star_count_tv);
+            tvfork = itemView.findViewById(R.id.fork_count_tv);
             tvname.setOnClickListener(v -> {
                 context.startActivity(new Intent(context, GithubPulls.class).
                         setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).
