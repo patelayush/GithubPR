@@ -49,6 +49,7 @@ public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.Re
 
             tvname.setOnClickListener(v -> {
                 context.startActivity(new Intent(context, GithubPulls.class).
+                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).
                         putExtra("name",repositories.get(getAdapterPosition()).getName()));
             });
         }

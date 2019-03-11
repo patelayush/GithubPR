@@ -49,7 +49,9 @@ public class PullRequestAdapter extends RecyclerView.Adapter<PullRequestAdapter.
 
             tvname.setOnClickListener(v -> {
                 System.out.println(pulls.get(getAdapterPosition()).getDiff_url());
+                //Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag.
                 context.startActivity(new Intent(context, GithubDiffsActivity.class).
+                        setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).
                         putExtra("url",pulls.get(getAdapterPosition()).getDiff_url()));
             });
         }
