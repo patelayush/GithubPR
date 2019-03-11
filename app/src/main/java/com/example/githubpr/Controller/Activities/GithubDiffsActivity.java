@@ -99,6 +99,16 @@ public class GithubDiffsActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(diffsAdapter);
         diffsAdapter.notifyDataSetChanged();
-        System.out.println("Reached here" + diffsAdapter);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver,connectivityIntentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 }
