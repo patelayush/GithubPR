@@ -18,4 +18,6 @@ Short Description - Fetches and displays data from the GitHub API List open PRs 
 
 <p align="center">
 <img src="GithubPRDemo.gif">
+<br><br>
+Demo
 </p>
