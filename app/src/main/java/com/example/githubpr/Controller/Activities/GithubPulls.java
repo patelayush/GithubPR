@@ -53,7 +53,7 @@ public class GithubPulls extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_github_pulls);
-
+        progress=new ProgressDialog(this);
         repository_name = getIntent().getStringExtra("name");
         restAPI = ServiceGenerator.createService(RetrofitAPI.class);
         recyclerView = findViewById(R.id.pulls_recycler);
@@ -69,7 +69,7 @@ public class GithubPulls extends AppCompatActivity {
                     if(pulls.size()!=0)
                         setUpAdapter();
                     else
-                        no_pulls_tv.setText("No open Pull Requests for " + Html.fromHtml("<b>" + repository_name + "</b>"));
+                        no_pulls_tv.setText(Html.fromHtml("No open Pull Requests for " + "<b>" + repository_name + "</b>"));
 
 
                 }
@@ -77,7 +77,7 @@ public class GithubPulls extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<PullRequest>> call, Throwable t) {
-                System.out.println(t.getMessage());
+                Toast.makeText(getApplicationContext(),"Failure in fetching",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -97,7 +97,6 @@ public class GithubPulls extends AppCompatActivity {
 
     private void showProgressDialog(boolean b) {
         if(b){
-            progress=new ProgressDialog(this);
             progress.setMessage("Loading More Pull Requests");
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setIndeterminate(true);
@@ -127,6 +126,7 @@ public class GithubPulls extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onResume() {

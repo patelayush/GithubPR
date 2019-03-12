@@ -30,7 +30,8 @@ public class Hunkview extends FrameLayout {
         to_layout = view.findViewById(R.id.layout_to_line);
 
         header_tv.setText(headerString.get(0));
-
+        for(String s:headerString)
+            System.out.println(s);
         fromlinestarting = hunk.getFromFileRange().getLineStart();
         tolinestarting = hunk.getToFileRange().getLineStart();
 

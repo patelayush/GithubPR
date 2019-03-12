@@ -9,13 +9,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingLeft="15dp"
         android:layout_margin="10dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/repos_name_tv"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:gravity="start"
             android:textColor="#000000"/>
         <LinearLayout
@@ -33,17 +34,36 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/star_count_tv"
-                android:textColor="#000000"/>
+                android:textSize="14sp"
+                />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_call_split_black_18dp"
                 />
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/fork_count_tv"
-                android:textColor="#000000"/>
+                android:textSize="14sp"
+                />
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/circle"
+                android:id="@+id/circle_img"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                android:baselineAlignBottom="true"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/language_tv"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                />
 
         </LinearLayout>
 

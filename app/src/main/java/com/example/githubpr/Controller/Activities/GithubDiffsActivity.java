@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reflectoring.diffparser.api.DiffParser;
 import io.reflectoring.diffparser.api.UnifiedDiffParser;
 import io.reflectoring.diffparser.api.model.Diff;
 import okhttp3.ResponseBody;
@@ -40,7 +39,7 @@ public class GithubDiffsActivity extends AppCompatActivity {
     private RetrofitAPI restAPI;
     private String pull_title;
     private String diff_url;
-    private DiffParser diffParser;
+    private UnifiedDiffParser diffParser;
     private List<Diff> difflist;
     private TextView files_changed_tv;
     private RecyclerView recyclerView;
@@ -59,8 +58,9 @@ public class GithubDiffsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        restAPI = ServiceGenerator.createService(RetrofitAPI.class);
         setContentView(R.layout.activity_github_diffs);
+        restAPI = ServiceGenerator.createService(RetrofitAPI.class);
+        progress=new ProgressDialog(this);
         diff_url = getIntent().getStringExtra("url");
         pull_title = getIntent().getStringExtra("pull");
         getSupportActionBar().setTitle(pull_title);
@@ -89,14 +89,13 @@ public class GithubDiffsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                System.out.println(t.getMessage());
+                Toast.makeText(getApplicationContext(),"Failure in fetching",Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void showProgressDialog(boolean b) {
         if(b){
-            progress=new ProgressDialog(this);
             progress.setMessage("Loading");
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setIndeterminate(true);

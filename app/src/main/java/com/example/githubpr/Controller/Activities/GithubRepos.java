@@ -33,7 +33,7 @@ public class GithubRepos extends AppCompatActivity {
     private RetrofitAPI restAPI;
     private RecyclerView recyclerView;
     private RepositoryAdapter repositoryAdapter;
-    private ProgressDialog progress;
+    private ProgressDialog progress ;
     int pagenumber = 1;
     private IntentFilter connectivityIntentFilter = new IntentFilter(CONNECTIVITY_ACTION);
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -49,6 +49,7 @@ public class GithubRepos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.repos_github);
         restAPI = ServiceGenerator.createService(RetrofitAPI.class);
+        progress=new ProgressDialog(this);
         recyclerView = findViewById(R.id.repos_recycler);
         Call<ArrayList<Repository>> call = restAPI.getRespositories(pagenumber);
         getSupportActionBar().setTitle("Google Repositories");
@@ -83,7 +84,6 @@ public class GithubRepos extends AppCompatActivity {
 
     private void showProgressDialog(boolean b) {
         if(b){
-            progress=new ProgressDialog(this);
             progress.setMessage("Loading More Repositories");
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setIndeterminate(true);
@@ -111,7 +111,7 @@ public class GithubRepos extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<Repository>> call, Throwable t) {
-                System.out.println(t.getMessage());
+                Toast.makeText(getApplicationContext(),"Failure in fetching",Toast.LENGTH_SHORT).show();
             }
         });
     }

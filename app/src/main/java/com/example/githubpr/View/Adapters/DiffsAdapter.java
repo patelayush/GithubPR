@@ -37,8 +37,8 @@ public class DiffsAdapter extends RecyclerView.Adapter<DiffsAdapter.DiffsHolder>
     @Override
     public void onBindViewHolder(@NonNull DiffsAdapter.DiffsHolder diffsHolder, int i) {
         Diff diff = diffslist.get(i);
-        diffsHolder.from_tv.setText("File Name: " +diff.getFromFileName().split("a/")[1]);
-
+        diffsHolder.from_tv.setText("File Name: " +diff.getFromFileName());
+        System.out.println(diff.getFromFileName());
         for(Hunk hunk : diff.getHunks()){
             diffsHolder.hunk_layout.addView(new Hunkview(context, hunk, diff.getHeaderLines()));
         }
